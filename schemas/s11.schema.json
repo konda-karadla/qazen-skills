@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s11.schema.json",
+  "title": "S11CiCdGateAdapterOutput",
+  "description": "Deterministic CI/CD gate result after H5 sign-off. status_pushed is pass, fail, or blocked.",
+  "type": "object",
+  "required": [
+    "run_id",
+    "threshold_applied",
+    "status_pushed",
+    "cicd_endpoint",
+    "push_timestamp",
+    "linked_summary"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string" },
+    "threshold_applied": {
+      "type": "object",
+      "description": "Exact suite thresholds used for this evaluation.",
+      "required": ["min_pass_rate"],
+      "properties": {
+        "min_pass_rate": { "type": ["number", "null"], "minimum": 0, "maximum": 1 },
+        "fail_on_unresolved_security": { "type": "boolean" },
+        "fail_on_critical_test_failed": { "type": "boolean" },
+        "critical_test_ids": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "require_suite_executed": { "type": "boolean" }
+      }
+    },
+    "status_pushed": {
+      "type": "string",
+      "enum": ["pass", "fail", "blocked"]
+    },
+    "cicd_endpoint": { "type": "string" },
+    "push_timestamp": {
+      "type": "string",
+      "description": "ISO-8601 UTC timestamp of the push attempt."
+    },
+    "linked_summary": {
+      "type": "object",
+      "required": ["run_id", "artifact_type"],
+      "additionalProperties": false,
+      "properties": {
+        "run_id": { "type": "string" },
+        "artifact_type": { "type": "string" },
+        "artifact_id": { "type": ["string", "null"] }
+      }
+    },
+    "push_mode": {
+      "type": "string",
+      "enum": ["mock", "http"],
+      "description": "How the status was delivered; mock records locally; http POSTs to cicd_endpoint."
+    },
+    "http_status_code": {
+      "type": "integer",
+      "description": "HTTP response code from cicd_endpoint when push_mode is http."
+    },
+    "fail_reasons": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Deterministic rule failures that produced status fail or blocked."
+    },
+    "escalation_note": {
+      "type": "string",
+      "description": "Present when blocked due to missing config, missing H5, or unreachable endpoint."
+    }
+  }
+}

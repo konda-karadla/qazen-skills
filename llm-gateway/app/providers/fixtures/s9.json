@@ -1,0 +1,17 @@
+{
+  "run_id": "RUN-0000-EXAMPLE",
+  "aggregate_metrics": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "pass_rate": 1.0,
+    "by_layer": { "UI": { "passed": 1, "failed": 0 } },
+    "by_classification": {}
+  },
+  "trend_data": { "baseline_run_id": null, "stability_metrics": {} },
+  "new_vs_known_failures": { "new": [], "known": [] },
+  "regressions": [],
+  "human_readable_summary": "1 of 1 tests passed (100%). No failures to classify. Environment: chromium-129.0 on linux.",
+  "unclassified_note": ""
+}

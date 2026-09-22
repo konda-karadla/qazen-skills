@@ -1,0 +1,28 @@
+{
+  "run_id": "RUN-0000-EXAMPLE",
+  "pass_fail_summary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "pass_rate": 1.0,
+    "by_layer": { "UI": { "passed": 1, "failed": 0, "skipped": 0 } },
+    "by_classification": {}
+  },
+  "outstanding_app_bugs": [],
+  "security_violations": [],
+  "baseline_comparison": {
+    "new": [],
+    "known": [],
+    "regressions": [],
+    "baseline_run_id": null
+  },
+  "data_completeness_note": "Release baseline_run_id is null; new/known/regression comparison has no confirmed baseline.",
+  "evidence_links": [
+    {
+      "claim": "Execution counts: total=1, passed=1, failed=0, skipped=0",
+      "uris": []
+    }
+  ],
+  "factual_narrative": "The execution completed with 1 passed, 0 failed, and 0 skipped tests out of 1 total.\nPass rate (classified results only, per S9): 100.0%.\nOutstanding app-bug classifications: 0.\nS8 security/boundary violations: 0.\nBaseline comparison — new=0, known=0, regressions=0, baseline_run_id=None.\nData completeness: Release baseline_run_id is null; new/known/regression comparison has no confirmed baseline."
+}

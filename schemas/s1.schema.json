@@ -1,0 +1,43 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s1.schema.json",
+  "title": "S1InputNormalizationOutput",
+  "description": "Structured internal representation produced by S1 - Input Normalization.",
+  "type": "object",
+  "required": [
+    "source_type",
+    "title_summary",
+    "description",
+    "acceptance_criteria",
+    "business_rules_referenced",
+    "unstructured_fragments",
+    "original_source_reference"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "source_type": {
+      "type": "string",
+      "enum": ["BRD", "Jira ticket", "user story", "acceptance criteria", "other"]
+    },
+    "title_summary": { "type": "string", "minLength": 1 },
+    "description": { "type": "string" },
+    "acceptance_criteria": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "business_rules_referenced": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Anything the source alludes to but doesn't define; feeds S2 directly."
+    },
+    "unstructured_fragments": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Content that could not be mapped to a known section; never dropped."
+    },
+    "original_source_reference": {
+      "type": "string",
+      "description": "Pointer back to the raw input for traceability."
+    }
+  }
+}

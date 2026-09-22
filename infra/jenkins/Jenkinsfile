@@ -1,0 +1,68 @@
+// Jenkins pipeline stub for QAZen S11 CI gate integration.
+// QAZen pushes a JSON status webhook after H5; this job can also be used
+// to *trigger* a QAZen run and wait for human gates externally.
+//
+// Env (configure in Jenkins credentials / job params — do not hardcode secrets):
+//   QAZEN_ORCHESTRATOR_URL  e.g. http://orchestrator:8002
+//   QAZEN_REVIEW_URL        e.g. http://review-api:8001
+//   CI_GATE_TOKEN           optional bearer token expected by a status receiver
+//
+// Local pilot still uses CI_GATE_MODE=mock. For HTTP push from the orchestrator:
+//   CI_GATE_MODE=http
+//   CI_GATE_ENDPOINT=<this Jenkins generic webhook or a status collector URL>
+
+pipeline {
+  agent any
+
+  parameters {
+    string(name: 'RUN_ID', defaultValue: '', description: 'Optional existing QAZen run_id')
+    text(name: 'REQUIREMENT_RAW', defaultValue: 'Users must log in with valid credentials.', description: 'BRD / requirement text when starting a new run')
+  }
+
+  environment {
+    ORCH = "${env.QAZEN_ORCHESTRATOR_URL ?: 'http://host.docker.internal:8002'}"
+    REVIEW = "${env.QAZEN_REVIEW_URL ?: 'http://host.docker.internal:8001'}"
+  }
+
+  stages {
+    stage('Start or resume context') {
+      steps {
+        script {
+          if (!params.RUN_ID?.trim()) {
+            def body = groovy.json.JsonOutput.toJson([input: [raw: params.REQUIREMENT_RAW]])
+            def resp = httpRequest(
+              httpMode: 'POST',
+              url: "${ORCH}/runs",
+              contentType: 'APPLICATION_JSON',
+              requestBody: body,
+              validResponseCodes: '200:299'
+            )
+            def json = readJSON text: resp.content
+            env.QAZEN_RUN_ID = json.run_id
+            echo "Started QAZen run ${env.QAZEN_RUN_ID}"
+            echo "Review UI: ${REVIEW}/ui/?run_id=${env.QAZEN_RUN_ID}"
+          } else {
+            env.QAZEN_RUN_ID = params.RUN_ID.trim()
+            echo "Using existing run ${env.QAZEN_RUN_ID}"
+          }
+        }
+      }
+    }
+
+    stage('Wait for human gates (manual)') {
+      steps {
+        echo "Approve H1–H5 in the Review UI or via Review API before treating this build as gated."
+        echo "${REVIEW}/ui/?run_id=${env.QAZEN_RUN_ID}"
+        input message: 'Confirm H5 has been approved and S11 has pushed (or mock recorded) for this run'
+      }
+    }
+
+    stage('Record gate linkage') {
+      steps {
+        echo "QAZen run ${env.QAZEN_RUN_ID} linked to Jenkins build ${env.BUILD_URL}"
+        writeFile file: 'qazen-run.txt', text: "${env.QAZEN_RUN_ID}\n"
+        archiveArtifacts artifacts: 'qazen-run.txt', fingerprint: true
+      }
+    }
+  }
+}

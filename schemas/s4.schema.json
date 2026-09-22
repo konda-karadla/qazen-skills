@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s4.schema.json",
+  "title": "S4TestDataGenerationOutput",
+  "description": "Synthetic/masked datasets produced by S4, consumed by S5.",
+  "type": "object",
+  "required": ["datasets"],
+  "additionalProperties": false,
+  "properties": {
+    "datasets": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["dataset_id", "test_case_id", "data_values", "source"],
+        "additionalProperties": false,
+        "properties": {
+          "dataset_id": { "type": "string" },
+          "test_case_id": { "type": "string", "pattern": "^TC-[A-Za-z0-9_-]+$" },
+          "data_values": {},
+          "source": { "type": "string", "enum": ["synthetic", "masked production-derived"] },
+          "masking_method": { "type": "string" }
+        }
+      }
+    }
+  }
+}

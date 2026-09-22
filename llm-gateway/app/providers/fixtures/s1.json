@@ -1,0 +1,13 @@
+{
+  "source_type": "BRD",
+  "title_summary": "Login with valid credentials",
+  "description": "Users must be able to log in with a valid username and password and be taken to the dashboard.",
+  "acceptance_criteria": [
+    "Given a valid username and password, when the user submits the login form, then the user is redirected to the dashboard."
+  ],
+  "business_rules_referenced": [
+    "Account lockout policy after repeated failed attempts is not specified."
+  ],
+  "unstructured_fragments": [],
+  "original_source_reference": "examples/demo-brd/login.md"
+}

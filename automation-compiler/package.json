@@ -1,0 +1,17 @@
+{
+  "name": "@qazen/automation-compiler",
+  "version": "0.1.0",
+  "description": "Deterministic compiler: S5 automation_model JSON -> Playwright .spec.ts. No LLM involved -- this is exactly why S5 emits a model instead of code.",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "compile": "tsx src/cli.ts",
+    "test": "node --test --import tsx dist_test_loader.mjs 2>NUL || tsx --test tests/compile.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.3",
+    "tsx": "^4.19.1",
+    "@types/node": "^22.7.5"
+  }
+}

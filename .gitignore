@@ -1,0 +1,54 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.eggs/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg
+
+# Node
+node_modules/
+dist/
+*.tsbuildinfo
+
+# Env / secrets — keep examples only
+.env
+.env.*
+!.env.example
+infra/.env
+!**/.env.example
+
+# IDE / editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Logs
+*.log
+
+# Generated automation output (compiled by automation-compiler, not hand-authored)
+playwright/generated/*
+!playwright/generated/.gitkeep
+playwright/test-results/
+playwright/node_modules/
+playwright/playwright-report/
+
+# Allure (generated per run)
+reports/allure-results/
+reports/allure-report/
+reports/local-run-logs/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini

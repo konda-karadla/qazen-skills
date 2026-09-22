@@ -1,0 +1,18 @@
+{
+  "tagged_statements": [
+    {
+      "statement": "The system must allow login with a valid username and password.",
+      "tag": "FACT",
+      "layer": "UI",
+      "source_reference": "examples/demo-brd/login.md"
+    },
+    {
+      "statement": "After successful login, the user is redirected to the dashboard.",
+      "tag": "FACT",
+      "layer": "UI",
+      "source_reference": "examples/demo-brd/login.md"
+    }
+  ],
+  "ambiguity_list": [],
+  "confirmed_carryforward": []
+}

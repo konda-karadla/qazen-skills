@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s5.schema.json",
+  "title": "S5AutomationModelOutput",
+  "description": "Structured automation model produced by S5 - Test Script Generation. NOT executable code. Consumed by the deterministic Automation Model Compiler to produce Playwright .spec.ts files. Presented at gate H3.",
+  "type": "object",
+  "required": ["script_id", "test_case_id", "layer", "automation_model", "assertions_plain"],
+  "additionalProperties": false,
+  "properties": {
+    "script_id": { "type": "string" },
+    "test_case_id": { "type": "string", "pattern": "^TC-[A-Za-z0-9_-]+$" },
+    "layer": { "type": "string", "enum": ["UI", "API", "both"] },
+    "automation_model": {
+      "type": "object",
+      "required": ["setup", "actions", "assertions"],
+      "additionalProperties": false,
+      "properties": {
+        "setup": { "type": "array", "items": { "$ref": "#/definitions/step" } },
+        "actions": { "type": "array", "items": { "$ref": "#/definitions/step" } },
+        "assertions": { "type": "array", "minItems": 1, "items": { "$ref": "#/definitions/assertion" } }
+      }
+    },
+    "locator_strategy_notes": { "type": "string" },
+    "wait_strategy_notes": { "type": "string" },
+    "assertions_plain": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Every assertion restated in plain language for H3 review without reading the model."
+    }
+  },
+  "definitions": {
+    "step": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": true,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["navigate", "fill", "click", "select", "check", "wait", "request"]
+        },
+        "locator": { "type": "string" },
+        "endpoint": { "type": "string" },
+        "value": {},
+        "payload": {},
+        "justification": {
+          "type": "string",
+          "description": "Required when type is 'wait' or when locator strategy falls back to XPath."
+        }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "wait" } } },
+          "then": { "required": ["type", "justification"] }
+        }
+      ]
+    },
+    "assertion": {
+      "type": "object",
+      "required": ["type", "target", "expected_value", "test_case_id"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["visible", "status_code", "schema_match", "response_time", "header_match", "text_match"]
+        },
+        "target": { "type": "string" },
+        "expected_value": {},
+        "test_case_id": { "type": "string", "pattern": "^TC-[A-Za-z0-9_-]+$" }
+      }
+    }
+  }
+}

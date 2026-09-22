@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s2.schema.json",
+  "title": "S2AmbiguityDetectionOutput",
+  "description": "Output of S2 - Domain Context & Ambiguity Detection. Presented at gate H1.",
+  "type": "object",
+  "required": ["tagged_statements", "ambiguity_list", "confirmed_carryforward"],
+  "additionalProperties": false,
+  "properties": {
+    "tagged_statements": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["statement", "tag", "layer"],
+        "additionalProperties": false,
+        "properties": {
+          "statement": { "type": "string", "minLength": 1 },
+          "tag": {
+            "type": "string",
+            "enum": ["FACT", "ASSUMPTION", "INFERENCE", "DECISION"]
+          },
+          "layer": { "type": "string", "enum": ["UI", "API", "both"] },
+          "source_reference": { "type": "string" }
+        }
+      }
+    },
+    "ambiguity_list": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["description", "kind"],
+        "additionalProperties": false,
+        "properties": {
+          "description": { "type": "string", "minLength": 1 },
+          "kind": { "type": "string", "enum": ["ASSUMPTION", "INFERENCE", "CONFLICT"] },
+          "related_statements": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "confirmed_carryforward": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Domain Knowledge Store entry IDs this requirement relied on."
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "allowed_domains": [
+    "saucedemo.com",
+    "www.saucedemo.com",
+    "reqres.in",
+    "www.reqres.in"
+  ],
+  "allowed_host_suffixes": [
+    ".saucedemo.com",
+    ".reqres.in"
+  ],
+  "blocked_host_patterns": [
+    "prod.",
+    "production.",
+    ".prod.",
+    "api.production",
+    "live-customer"
+  ],
+  "blocked_pii_field_names": [
+    "ssn",
+    "social_security",
+    "credit_card",
+    "card_number",
+    "cvv",
+    "passport",
+    "driver_license",
+    "real_email",
+    "customer_pii"
+  ],
+  "destructive_action_types": [
+    "delete",
+    "drop",
+    "truncate",
+    "destroy",
+    "purge"
+  ],
+  "routing_target": "security/release-owner"
+}

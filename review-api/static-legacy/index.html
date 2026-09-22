@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>QAZen Review</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/ui/styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="top">
+      <div class="brand-block">
+        <p class="brand">QAZen</p>
+        <p class="brand-sub">Human review gates H1–H5</p>
+      </div>
+      <form id="load-form" class="load-row" autocomplete="off">
+        <label for="run-id">Run ID</label>
+        <input id="run-id" name="run_id" type="text" spellcheck="false" placeholder="paste run uuid" required />
+        <button type="submit" class="btn primary">Load</button>
+      </form>
+    </header>
+
+    <main>
+      <section id="start-panel" class="start-panel">
+        <div class="evidence-head">
+          <h2>Start a run</h2>
+        </div>
+        <form id="start-form" class="start-form" autocomplete="off">
+          <label for="requirement-text">Requirement</label>
+          <textarea
+            id="requirement-text"
+            name="requirement"
+            rows="4"
+            required
+            placeholder="Users must log in with valid credentials and reach the dashboard."
+          ></textarea>
+          <label for="requirement-id">Requirement ID (optional)</label>
+          <input id="requirement-id" name="requirement_id" type="text" spellcheck="false" placeholder="e.g. REQ-LOGIN-001" />
+          <div class="start-actions">
+            <button type="submit" class="btn primary" id="btn-start-run">Start run</button>
+            <p id="start-feedback" class="message"></p>
+          </div>
+        </form>
+      </section>
+
+      <section id="runs-panel" class="runs-panel">
+        <div class="evidence-head">
+          <h2>Recent runs</h2>
+          <button type="button" id="btn-refresh-runs" class="btn ghost">Refresh</button>
+        </div>
+        <div id="runs-list" class="runs-list">
+          <p class="message">Loading…</p>
+        </div>
+      </section>
+
+      <section id="highlight-panel" class="highlight-panel" hidden>
+        <h2 id="highlight-title">Summary</h2>
+        <pre id="highlight-body" class="highlight-body"></pre>
+      </section>
+
+      <section id="status-panel" class="status-panel" hidden>
+        <div class="status-grid">
+          <div>
+            <span class="label">Pending gate</span>
+            <strong id="pending-gate">—</strong>
+          </div>
+          <div>
+            <span class="label">Run status</span>
+            <strong id="run-status">—</strong>
+          </div>
+          <div>
+            <span class="label">Stage</span>
+            <strong id="current-stage">—</strong>
+          </div>
+        </div>
+        <p id="status-message" class="message"></p>
+      </section>
+
+      <section id="actions" class="actions" hidden>
+        <div class="action-fields">
+          <label for="reviewer">Reviewer</label>
+          <input id="reviewer" type="text" value="qa-lead" />
+          <label for="comment">Comment</label>
+          <input id="comment" type="text" placeholder="optional note" />
+        </div>
+        <div class="action-buttons">
+          <button type="button" id="btn-approve" class="btn approve">Approve</button>
+          <button type="button" id="btn-changes" class="btn warn">Request changes</button>
+          <button type="button" id="btn-reject" class="btn danger">Reject</button>
+        </div>
+        <p id="action-feedback" class="message"></p>
+      </section>
+
+      <section id="evidence-panel" class="evidence" hidden>
+        <div class="evidence-head">
+          <h2>Gate evidence</h2>
+          <button type="button" id="btn-history" class="btn ghost">History</button>
+        </div>
+        <div id="evidence-list"></div>
+      </section>
+
+      <section id="history-panel" class="history" hidden>
+        <h2>Decision history</h2>
+        <div id="history-list"></div>
+      </section>
+    </main>
+  </div>
+  <script src="/ui/app.js"></script>
+</body>
+</html>

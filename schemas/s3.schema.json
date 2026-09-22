@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s3.schema.json",
+  "title": "S3TestCaseGenerationOutput",
+  "description": "Test case specifications produced by S3, presented at gate H2. Root is a list because S3 may be invoked once per requirement or batched.",
+  "type": "object",
+  "required": ["test_cases"],
+  "additionalProperties": false,
+  "properties": {
+    "test_cases": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "test_case_id",
+          "source_requirement_id",
+          "obligation",
+          "test_type",
+          "layer",
+          "input_values",
+          "expected_result",
+          "expected_result_basis",
+          "source_tags",
+          "duplicate_check"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "test_case_id": { "type": "string", "pattern": "^TC-[A-Za-z0-9_-]+$" },
+          "source_requirement_id": { "type": "string" },
+          "obligation": { "type": "string", "minLength": 1 },
+          "test_type": {
+            "type": "object",
+            "required": ["analysis", "partition_or_boundary"],
+            "additionalProperties": false,
+            "properties": {
+              "analysis": { "type": "string", "enum": ["BVA", "EP"] },
+              "partition_or_boundary": { "type": "string" }
+            }
+          },
+          "layer": { "type": "string", "enum": ["UI", "API", "both"] },
+          "input_values": {},
+          "expected_result": { "type": "string", "minLength": 1 },
+          "expected_result_basis": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Requirement line, Domain Knowledge Store entry, or DECISION record - never 'observed application behavior'."
+          },
+          "source_tags": {
+            "type": "array",
+            "items": { "type": "string", "enum": ["FACT", "DECISION"] },
+            "minItems": 1
+          },
+          "duplicate_check": {
+            "type": "string",
+            "description": "'new' or the existing test_case_id it duplicates."
+          }
+        }
+      }
+    }
+  }
+}

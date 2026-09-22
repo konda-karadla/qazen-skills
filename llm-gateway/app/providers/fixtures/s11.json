@@ -1,0 +1,20 @@
+{
+  "run_id": "RUN-0000-EXAMPLE",
+  "threshold_applied": {
+    "min_pass_rate": 0.95,
+    "fail_on_unresolved_security": true,
+    "fail_on_critical_test_failed": true,
+    "critical_test_ids": [],
+    "require_suite_executed": true
+  },
+  "status_pushed": "pass",
+  "cicd_endpoint": "mock://local/ci-gate",
+  "push_timestamp": "2026-09-15T00:00:00Z",
+  "linked_summary": {
+    "run_id": "RUN-0000-EXAMPLE",
+    "artifact_type": "s10_release_summary",
+    "artifact_id": null
+  },
+  "push_mode": "mock",
+  "fail_reasons": []
+}

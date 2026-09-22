@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s9.schema.json",
+  "title": "S9ReportingAggregationOutput",
+  "description": "Aggregated report produced by S9, presented at gate H4. Only classified results may contribute to aggregate_metrics.",
+  "type": "object",
+  "required": ["run_id", "aggregate_metrics", "trend_data", "new_vs_known_failures", "regressions", "human_readable_summary"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string" },
+    "aggregate_metrics": {
+      "type": "object",
+      "required": ["total", "passed", "failed", "skipped", "pass_rate", "by_layer", "by_classification"],
+      "additionalProperties": false,
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "skipped": { "type": "integer", "minimum": 0 },
+        "pass_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "by_layer": { "type": "object" },
+        "by_classification": { "type": "object" }
+      }
+    },
+    "trend_data": {
+      "type": "object",
+      "properties": {
+        "baseline_run_id": { "type": ["string", "null"] },
+        "stability_metrics": { "type": "object" }
+      }
+    },
+    "new_vs_known_failures": {
+      "type": "object",
+      "required": ["new", "known"],
+      "properties": {
+        "new": { "type": "array", "items": { "type": "string" } },
+        "known": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "regressions": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "test_case_ids that passed in the last confirmed baseline and now fail."
+    },
+    "human_readable_summary": { "type": "string", "minLength": 1 },
+    "unclassified_note": { "type": "string" }
+  }
+}

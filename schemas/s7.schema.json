@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s7.schema.json",
+  "title": "S7FailureClassificationOutput",
+  "description": "Evidence-fed failure classifications produced by S7 for a single run.",
+  "type": "object",
+  "required": ["run_id", "classifications"],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string" },
+    "classifications": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["test_case_id", "classification", "evidence_trail", "confidence", "flaky_history_flag"],
+        "additionalProperties": false,
+        "properties": {
+          "test_case_id": { "type": "string", "pattern": "^TC-[A-Za-z0-9_-]+$" },
+          "classification": {
+            "type": "string",
+            "enum": [
+              "app_bug",
+              "flaky",
+              "environment",
+              "automation_error",
+              "unclassified_pending_triage"
+            ]
+          },
+          "evidence_trail": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 1
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["clear", "inconclusive"]
+          },
+          "flaky_history_flag": { "type": "boolean" },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  }
+}

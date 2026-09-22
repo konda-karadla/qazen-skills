@@ -1,0 +1,19 @@
+{
+  "script_id": "SCR-TC-001",
+  "test_case_id": "TC-001",
+  "layer": "UI",
+  "automation_model": {
+    "setup": [{ "type": "navigate", "target": "/" }],
+    "actions": [
+      { "type": "fill", "locator": "#user-name", "value": "{{username}}" },
+      { "type": "fill", "locator": "#password", "value": "{{password}}" },
+      { "type": "click", "locator": "#login-button" }
+    ],
+    "assertions": [
+      { "type": "visible", "target": ".inventory_list", "expected_value": true, "test_case_id": "TC-001" }
+    ]
+  },
+  "locator_strategy_notes": "Sauce Demo demo ids (#user-name, #password, #login-button); inventory via .inventory_list",
+  "wait_strategy_notes": "None required; auto-wait sufficient",
+  "assertions_plain": ["After valid login, the inventory product list must be visible (proves TC-001)."]
+}

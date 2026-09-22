@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://qazen.local/schemas/s10.schema.json",
+  "title": "S10ReleaseReadinessSummaryOutput",
+  "description": "Factual release-readiness summary for gate H5. Must never phrase go/no-go recommendations — facts only.",
+  "type": "object",
+  "required": [
+    "run_id",
+    "pass_fail_summary",
+    "outstanding_app_bugs",
+    "security_violations",
+    "baseline_comparison",
+    "data_completeness_note",
+    "evidence_links"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "run_id": { "type": "string" },
+    "pass_fail_summary": {
+      "type": "object",
+      "required": ["total", "passed", "failed", "skipped", "pass_rate", "by_layer", "by_classification"],
+      "additionalProperties": false,
+      "properties": {
+        "total": { "type": "integer", "minimum": 0 },
+        "passed": { "type": "integer", "minimum": 0 },
+        "failed": { "type": "integer", "minimum": 0 },
+        "skipped": { "type": "integer", "minimum": 0 },
+        "pass_rate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "by_layer": { "type": "object" },
+        "by_classification": { "type": "object" }
+      }
+    },
+    "outstanding_app_bugs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["test_case_id", "detail", "evidence_uris"],
+        "additionalProperties": false,
+        "properties": {
+          "test_case_id": { "type": "string" },
+          "detail": { "type": "string" },
+          "evidence_uris": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "security_violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "source", "severity", "routing_target", "detail"],
+        "additionalProperties": false,
+        "properties": {
+          "action": { "type": "string" },
+          "source": { "type": "string" },
+          "severity": { "type": "string" },
+          "routing_target": { "type": "string" },
+          "detail": { "type": "string" }
+        }
+      }
+    },
+    "baseline_comparison": {
+      "type": "object",
+      "required": ["new", "known", "regressions"],
+      "additionalProperties": false,
+      "properties": {
+        "new": { "type": "array", "items": { "type": "string" } },
+        "known": { "type": "array", "items": { "type": "string" } },
+        "regressions": { "type": "array", "items": { "type": "string" } },
+        "baseline_run_id": {
+          "type": ["string", "null"],
+          "description": "Optional; may be omitted when null after gateway null-stripping."
+        }
+      }
+    },
+    "data_completeness_note": {
+      "type": "string",
+      "description": "Explicit note when required data is missing or incomplete; empty string when complete."
+    },
+    "evidence_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["claim", "uris"],
+        "additionalProperties": false,
+        "properties": {
+          "claim": { "type": "string" },
+          "uris": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        }
+      }
+    },
+    "factual_narrative": {
+      "type": "string",
+      "description": "Optional human-readable factual prose with no release recommendation language."
+    }
+  }
+}

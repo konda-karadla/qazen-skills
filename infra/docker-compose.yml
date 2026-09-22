@@ -1,0 +1,53 @@
+name: qazen
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: qazen-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: qazen
+      POSTGRES_PASSWORD: qazen_local_dev
+      POSTGRES_DB: qazen
+    ports:
+      - "5432:5432"
+    volumes:
+      - qazen_postgres_data:/var/lib/postgresql/data
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U qazen -d qazen"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  minio:
+    # minio/minio is no longer distributed as a pre-built image on Docker Hub
+    # (community edition became source-only distribution, Oct 2025). Using a
+    # community-maintained automated build from official MinIO source instead:
+    # https://github.com/netvark/minio-docker-build / https://github.com/coollabsio/minio
+    image: coollabsio/minio:latest
+    container_name: qazen-minio
+    restart: unless-stopped
+    environment:
+      MINIO_ROOT_USER: qazen
+      MINIO_ROOT_PASSWORD: qazen_local_dev
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000"   # S3 API
+      - "9001:9001"   # web console
+    volumes:
+      - qazen_minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+# Note: the qa-runs bucket is created idempotently by storage/minio_client.py
+# on first use (ensure_bucket()), rather than by a separate minio/mc init
+# container -- avoids depending on the minio/mc image, which has had
+# intermittent Docker Hub pull issues.
+
+volumes:
+  qazen_postgres_data:
+  qazen_minio_data:

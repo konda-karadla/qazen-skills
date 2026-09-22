@@ -1,0 +1,23 @@
+{
+  "run_id": "RUN-0000-EXAMPLE",
+  "correlation_id": "CORR-TC-001-0001",
+  "results": [
+    { "test_case_id": "TC-001", "script_id": "SCR-TC-001", "status": "pass", "duration_ms": 842 }
+  ],
+  "evidence_manifest": [
+    {
+      "test_case_id": "TC-001",
+      "artifact_type": "screenshot",
+      "storage_uri": "qa-runs/RUN-0000-EXAMPLE/execution/TC-001/screenshot.png"
+    }
+  ],
+  "environment_metadata": {
+    "browser_version": "chromium-129.0",
+    "os": "linux",
+    "runtime_version": "node-22.21.1",
+    "app_build": "saucedemo-demo",
+    "api_schema_version": "n/a",
+    "viewport": "1920x1080"
+  },
+  "retry_log": [{ "test_case_id": "TC-001", "attempts": 1 }]
+}

@@ -1,0 +1,16 @@
+{
+  "test_cases": [
+    {
+      "test_case_id": "TC-001",
+      "source_requirement_id": "REQ-LOGIN-001",
+      "obligation": "The system must let a user with valid credentials log in and reach the dashboard.",
+      "test_type": { "analysis": "EP", "partition_or_boundary": "valid credentials" },
+      "layer": "UI",
+      "input_values": { "username": "standard_user", "password": "secret_sauce" },
+      "expected_result": "The Dashboard heading is visible after login.",
+      "expected_result_basis": "examples/demo-brd/login.md acceptance criterion 1",
+      "source_tags": ["FACT"],
+      "duplicate_check": "new"
+    }
+  ]
+}
